@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { User } from './user.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -22,7 +23,7 @@ export class AuthService {
   private signUpUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`;
   private signInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signUp(email: string, password: string) {
     return this.http.post<AuthResponseData>(
@@ -47,6 +48,11 @@ export class AuthService {
       tap(this.authenticated),
       catchError(this.catchErrorFunc),
     );
+  }
+
+  logout(): void {
+    this.userSubject.next(null);
+    this.router.navigate(['/auth']);
   }
 
   private catchErrorFunc = (errorRes: HttpErrorResponse): Observable<string> => {
@@ -78,5 +84,6 @@ export class AuthService {
       new Date(new Date().getTime() + +data.expiresIn * 1000)
     );
     this.userSubject.next(user);
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 }
