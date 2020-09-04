@@ -1,23 +1,18 @@
 import { User } from './auth/user.model';
 import { AuthService } from './auth/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'my-first-app';
 
-  constructor(private authService: AuthService) {
-    const user: User = JSON.parse(localStorage.getItem('userData'));
-    if (user) {
-      console.log('true')
-      console.log(user)
-    } else {
-      console.log('false')
-    }
-    this.authService.userSubject.next(user);
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.autoLogin();
   }
 }
