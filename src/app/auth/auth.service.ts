@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { User } from './user.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -19,9 +20,9 @@ export interface AuthResponseData {
 })
 export class AuthService {
   userSubject = new BehaviorSubject<User>(null);
-  private apiKey: string = 'AIzaSyCRCiJeAw0Jn3jrONTKwTy0E_1__S9bKo8';
-  private signUpUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.apiKey}`;
-  private signInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.apiKey}`;
+  private signUpUrl: string = environment.signUpUrl;
+  private signInUrl: string = environment.signInUrl;
+
   private expirationTimer = null;
 
   constructor(private http: HttpClient, private router: Router) {}
