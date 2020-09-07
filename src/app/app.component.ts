@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'my-first-app';
+  title = 'my-first-app-NgRx';
 
   constructor(private authService: AuthService) {}
 
